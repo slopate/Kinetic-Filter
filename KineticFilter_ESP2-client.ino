@@ -15,25 +15,29 @@ WebServer server(80);
 WiFiUDP udp; 
 
 int stepsPerRev = 2048;
-int dir = 1;
-int dir2 = 1;
-int dir3 = 1;
-int stepCount = 0;
+
+int stepCount1 = 0;
 int stepCount2 = 0;
 int stepCount3 = 0;
 
-Stepper mystepper(stepsPerRev, 15,0,2,4);
-Stepper mystepper2(stepsPerRev, 32,25,33,26);
+int initPotVal1, initPotVal2, initPotVal3;
+
+int potPin1 = 32;
+int potPin2 = 35;
+int potPin3 = 34;
+
+int padding = 20;
+
+bool firstLoop = true;
+
+Stepper mystepper1(stepsPerRev, 23,21,22,19);
+Stepper mystepper2(stepsPerRev, 15,0,2,4);
 Stepper mystepper3(stepsPerRev, 16,5,17,18);
 
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
-//  WiFi.softAP(ssid, password);
-//  WiFi.softAPConfig(local_ip, gateway, subnet); 
-//
-//  server.begin();
     WiFi.begin(ssid, password);
 
     while (WiFi.status() != WL_CONNECTED) {
@@ -49,63 +53,55 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  if (dir > 0) 
-  {
-    mystepper.step(5); //1/360th of a rev
-  }
-  else 
-  {
-    mystepper.step(-5);
-  }
+  int potVal1 = analogRead(potPin1);
+  int potVal2 = analogRead(potPin2);
+  int potVal3 = analogRead(potPin3);
 
-  if (dir2 > 0) 
-  {
-    mystepper2.step(5); //1/360th of a rev
-  }
-  else 
-  {
-    mystepper2.step(-5);
-  }
-
-   if (dir3 > 0) 
-  {
-    mystepper3.step(5); //1/360th of a rev
-  }
-  else 
-  {
-    mystepper3.step(-5);
-  }
+  int potScale1 = map(potVal1, 0, 4096, -1000, 1000);
+  int potScale2 = map(potVal2, 0, 4096, -1000, 1000);
+  int potScale3 = map(potVal3, 0, 4096, -1000, 1000);
   
-
-  stepCount++;
-  stepCount2++;
-  stepCount3++;
-
-  if (stepCount == 2500) 
+  if (stepCount1 < (potScale1 - padding)) 
   {
-    stepCount = 0;
-    dir = dir * -1;
+    mystepper1.step(3); 
+    stepCount1++; 
+  }
+  else if (stepCount1 > (potScale1 + padding))
+  {
+    mystepper1.step(-3);
+    stepCount1--; 
   }
 
-  if (stepCount2 == 2500) 
+
+  if (stepCount2 < (potScale2 - padding)) 
   {
-    stepCount2 = 0;
-    dir2 = dir2 * -1;
+    mystepper2.step(3); 
+    stepCount2++; 
+  }
+  else if (stepCount2 > (potScale2 + padding))
+  {
+    mystepper2.step(-3);
+    stepCount2--;
   }
 
-   if (stepCount3 == 2500) 
+
+  if (stepCount3 < (potScale3 - padding)) 
   {
-    stepCount3 = 0;
-    dir3 = dir3 * -1;
+    mystepper3.step(3); 
+    stepCount3++; 
+  }
+  else if (stepCount3 > (potScale3 + padding))
+  {
+    mystepper3.step(-3);
+    stepCount3--; 
   }
 
-  //Serial.println(String(stepCount));
-  //Serial.println(stepCount);
+  Serial.println(String(potScale1) + " "  + String(stepCount1) + " " + String(potScale2) + " "  + String(stepCount2) + " " + String(potScale3) + " "  + String(stepCount1));
 
   udp.beginPacket("192.168.1.2", 6666);
-  udp.print(String(stepCount));
+  udp.print(String(stepCount1) + " " + String(stepCount2) + " " + String(stepCount3));
   udp.endPacket();
   
-  delay(10);
+  delay(7);
 
 }
