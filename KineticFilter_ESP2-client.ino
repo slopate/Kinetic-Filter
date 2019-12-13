@@ -3,7 +3,7 @@
 #include <WebServer.h>
 #include <WiFiUdp.h>
 
-const char* ssid = "filterNetwork";
+const char* ssid = "FilterNetwork";
 const char* password = "1123581321";
 
 IPAddress local_ip(192,168,1,1);
@@ -72,7 +72,7 @@ void loop() {
   int potVal2 = analogRead(potPin2);
   int potVal3 = analogRead(potPin3);
 
-  int potScale1 = map(potVal1, initPotVal1 - 2047.5, initPotVal1 + 2047.5, initStepCount1 - 1750, initStepCount1 + 1350);
+  int potScale1 = map(potVal1, initPotVal1 - 2047.5, initPotVal1 + 2047.5, initStepCount1 - 1700, initStepCount1 + 1400);
   int potScale2 = map(potVal2, initPotVal2 - 2047.5, initPotVal2 + 2047.5, initStepCount2 - 1450, initStepCount2 + 1470);
   int potScale3 = map(potVal3, initPotVal3 - 2047.5, initPotVal3 + 2047.5, initStepCount3 - 1450, initStepCount3 + 1470);
   
@@ -113,7 +113,7 @@ void loop() {
 
   Serial.println(String(potScale1) + " "  + String(stepCount1) + " " + String(potScale2) + " "  + String(stepCount2) + " " + String(potScale3) + " "  + String(stepCount3));
 
-  udp.beginPacket("192.168.1.2", 6666);
+  udp.beginPacket("192.168.1.2", 6667);
   udp.print(String(stepCount1) + " " + String(stepCount2) + " " + String(stepCount3));
   udp.endPacket();
   

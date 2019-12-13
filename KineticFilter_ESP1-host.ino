@@ -3,7 +3,7 @@
 #include <WebServer.h>
 #include <WiFiUdp.h>
 
-const char* ssid = "filterNetwork";
+const char* ssid = "FilterNetwork";
 const char* password = "1123581321";
 
 IPAddress local_ip(192,168,1,1);
@@ -111,7 +111,7 @@ void loop() {
     //Serial.println(String(potVal1) + " " + String(potVal2) + " " + String(potVal3));
 
 
-  udp.beginPacket("192.168.1.2", 5555);
+  udp.beginPacket("192.168.1.2", 5556);
   udp.print(String(stepCount1) + " " + String(stepCount2) + " " + String(stepCount3));
   udp.endPacket();
   
