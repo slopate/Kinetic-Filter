@@ -42,14 +42,14 @@ Ultimately I was extremely satisfied with my sculpture and happy that I put a lo
 
 Parts List 
 
-Two ESP32’s
-Six 28BYJ-48 Stepper Motors with ULN2003 motor drivers 
-Six Stepper Motor Wheels 
-Six Dial Potentiometers 
-5 Volt 12 Amp External Power Source
-Graduated Wooden Balls 
-Colored Yarn 
-Wooden Enclosure 
-Breadboard and Wires 
-Laptop 
+Two ESP32’s,
+Six 28BYJ-48 Stepper Motors with ULN2003 motor drivers,
+Six Stepper Motor Wheels, 
+Six Dial Potentiometers, 
+5 Volt 12 Amp External Power Source,
+Graduated Wooden Balls, 
+Colored Yarn, 
+Wooden Enclosure, 
+Breadboard and Wires, 
+Laptop, 
 Desktop Speakers 
